@@ -1,6 +1,9 @@
 package aromaframework.core.domain;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
+import java.util.List;
 
 /**
  * Created by diego on 06/06/17.
@@ -15,15 +18,35 @@ public class PropertyModel {
 
     private String label;
 
-    private Set comments;
+    private Set comments = new HashSet();
 
     private String type;
 
-    private Set ranges;
+    private Set ranges = new HashSet();
 
-    private Set domains;
+    private Set domains = new HashSet();
 
     private String nameSpace;
+
+    private List subProperties = new ArrayList();
+
+    private List superProperties = new ArrayList();
+
+    private List equivalentProperties = new ArrayList();
+
+    private Set inverseOf = new HashSet();
+
+    private boolean transitive;
+
+    private boolean functional;
+
+    private boolean dataTypeProperty;
+
+    private boolean objectProperty;
+
+    private boolean symmetricProperty;
+
+    private boolean inverseFunctionalProperty;
 
     public String getId() {
         return id;
@@ -95,5 +118,85 @@ public class PropertyModel {
 
     public void setURI(String URI) {
         this.URI = URI;
+    }
+
+    public List getSubProperties() {
+        return subProperties;
+    }
+
+    public void setSubProperties(List subProperties) {
+        this.subProperties = subProperties;
+    }
+
+    public List getSuperProperties() {
+        return superProperties;
+    }
+
+    public void setSuperProperties(List superProperties) {
+        this.superProperties = superProperties;
+    }
+
+    public List getEquivalentProperties() {
+        return equivalentProperties;
+    }
+
+    public void setEquivalentProperties(List equivalentProperties) {
+        this.equivalentProperties = equivalentProperties;
+    }
+
+    public boolean isTransitive() {
+        return transitive;
+    }
+
+    public void setTransitive(boolean transitive) {
+        this.transitive = transitive;
+    }
+
+    public boolean isFunctional() {
+        return functional;
+    }
+
+    public void setFunctional(boolean functional) {
+        this.functional = functional;
+    }
+
+    public boolean isDataTypeProperty() {
+        return dataTypeProperty;
+    }
+
+    public void setDataTypeProperty(boolean dataTypeProperty) {
+        this.dataTypeProperty = dataTypeProperty;
+    }
+
+    public boolean isObjectProperty() {
+        return objectProperty;
+    }
+
+    public void setObjectProperty(boolean objectProperty) {
+        this.objectProperty = objectProperty;
+    }
+
+    public boolean isSymmetricProperty() {
+        return symmetricProperty;
+    }
+
+    public void setSymmetricProperty(boolean symmetricProperty) {
+        this.symmetricProperty = symmetricProperty;
+    }
+
+    public boolean isInverseFunctionalProperty() {
+        return inverseFunctionalProperty;
+    }
+
+    public void setInverseFunctionalProperty(boolean inverseFunctionalProperty) {
+        this.inverseFunctionalProperty = inverseFunctionalProperty;
+    }
+
+    public Set getInverseOf() {
+        return inverseOf;
+    }
+
+    public void setInverseOf(Set inverseOf) {
+        this.inverseOf = inverseOf;
     }
 }

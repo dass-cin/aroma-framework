@@ -1,5 +1,6 @@
 package aromaframework.core.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,18 +10,18 @@ public class OntologyClass {
 
     private String id;
     private String name = null;
-    private List synonyms;
+    private List synonyms = new ArrayList();
     private String URI;
     private String label;
     private String commment;
-    private List partOf;
-    private List hasPart;
-    private List supers;
-    private List subs;
-    private List equiv;
-    private List disjointWith;
-    private List seeAlso;
-    private List isDefinedBy;
+    private List partOf = new ArrayList();
+    private List hasPart = new ArrayList();
+    private List supers = new ArrayList();
+    private List subs = new ArrayList();
+    private List equiv = new ArrayList();
+    private List disjointWith = new ArrayList();
+    private List seeAlso = new ArrayList();
+    private List isDefinedBy = new ArrayList();
 
     public String getId() {
         return id;

@@ -44,6 +44,12 @@ public class OntologyServiceTest {
         assertTrue(ontologyModel.getProperties().size() > 0);
     }
 
-
+    @Test
+    public void hasToLoadOntologyByURI() {
+        OntologyModel ontologyModel =ontologyService.loadOntologyModel(sourceOntology);
+        assertNotNull(ontologyModel);
+        assertTrue(ontologyModel.getClasses().size() > 0);
+        assertTrue(ontologyModel.getProperties().size() > 0);
+    }
 
 }
