@@ -5,15 +5,19 @@ import aromaframework.config.ApplicationProperties;
 import aromaframework.core.domain.OntologyClass;
 import aromaframework.core.domain.OntologyModel;
 import aromaframework.core.domain.PropertyModel;
+import br.cin.ufpe.dass.matchers.core.Ontology;
 import org.apache.jena.ontology.OntClass;
 import org.apache.jena.ontology.OntModel;
+import org.apache.jena.ontology.OntModelSpec;
 import org.apache.jena.ontology.OntProperty;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.RDFWriter;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.util.FileManager;
 import org.springframework.stereotype.Service;
 
+import java.io.FileOutputStream;
 import java.net.URI;
 import java.util.LinkedHashMap;
 import java.util.Optional;
@@ -48,6 +52,7 @@ public class OntologyService {
         OntologyModel ontologyModel = new OntologyModel();
         ontologyModel.setNothing(ontModel.getProfile().NOTHING());
         ontologyModel.setThing(ontModel.getProfile().THING());
+
 
         ontologyModel.setProperties(new LinkedHashMap<>());
         //Object Properties
@@ -99,7 +104,7 @@ public class OntologyService {
         if (ontologyClass == null) {
             ontologyClass = new OntologyClass();
             ontologyClass.setId(rs.getURI());
-            ontologyClass.setLabel(((OntClass) rs).getLabel(null));
+            ontologyClass.setLabel(((OntClass) rs).getLabel("en"));
             ontologyClass.setName(((OntClass) rs).getLocalName());
             ontologyClass.setURI(rs.getURI());
             ontologyClass.setCommment(((OntClass) rs).getComment(null));
@@ -117,17 +122,17 @@ public class OntologyService {
                 .map(t -> ((Literal)t).getString()).collect(Collectors.toList()));
 
         //fill subclasses
-//        ontologyClass.setSubs(((OntClass) rs).listSubClasses(true).toSet().stream()
-//                .filter(c -> !c.isAnon())
-//                .map(c -> (loadOntologyClass(ontologyModel, c)))
-//                .collect(Collectors.toList()));
-
-        //fill superclasses
-        //preciso checar se alguma das superclasses está na lista de super classe, se tiver, considerar ela...
-        ontologyClass.setSupers(((OntClass) rs).listSuperClasses(true).toSet().stream()
+        ontologyClass.setSubs(((OntClass) rs).listSubClasses(true).toSet().stream()
                 .filter(c -> !c.isAnon())
                 .map(c -> (loadOntologyClass(ontologyModel, c)))
                 .collect(Collectors.toList()));
+
+        //fill superclasses
+        //preciso checar se alguma das superclasses está na lista de super classe, se tiver, considerar ela...
+//        ontologyClass.setSupers(((OntClass) rs).listSuperClasses(true).toSet().stream()
+//                .filter(c -> !c.isAnon())
+//                .map(c -> (loadOntologyClass(ontologyModel, c)))
+//                .collect(Collectors.toList()));
 
         //fill partof
         ontologyClass.setPartOf(((OntClass) rs).listSuperClasses(true).toSet().stream()
@@ -165,7 +170,7 @@ public class OntologyService {
         propertyModel.setId(ontProperty.getLocalName());
         propertyModel.setName(ontProperty.getLocalName());
         propertyModel.setURI(ontProperty.getURI());
-        propertyModel.setComments(ontProperty.listComments(null).toSet());
+        propertyModel.setComments(ontProperty.listComments("en").toSet());
         propertyModel.setDomains(ontProperty.listDomain().toSet());
         propertyModel.setRanges(ontProperty.listRange().toSet());
         propertyModel.setTransitive(ontProperty.isTransitiveProperty());
@@ -175,7 +180,7 @@ public class OntologyService {
         propertyModel.setSymmetricProperty(ontProperty.isSymmetricProperty());
         propertyModel.setInverseFunctionalProperty(ontProperty.isInverseFunctionalProperty());
         propertyModel.setInverseOf(ontProperty.listInverseOf().toSet());
-        propertyModel.setLabel(ontProperty.getLabel(null)!=null?
+        propertyModel.setLabel(ontProperty.getLabel("en")!=null?
                 textNormalizer.basicNormalizing(ontProperty.getLabel(null).trim())
                 :textNormalizer.basicNormalizing(ontProperty.getLocalName().trim()));
         propertyModel.setSubProperties(ontProperty.listSubProperties().toSet()
